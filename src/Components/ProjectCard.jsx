@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
 
-const ProjectCard = ({ project }) => {
+// استقبلنا innerRef و index
+const ProjectCard = ({ project, index, innerRef }) => {
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef(null);
 
@@ -21,7 +22,12 @@ const ProjectCard = ({ project }) => {
 
   return (
     <div
-      className="group bg-slate-800/40 dark:bg-slate-900/40 rounded-3xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)] flex flex-col"
+      ref={innerRef} // ربطنا الكارت بالمرجع اللي جاي من الأب
+      style={{ transitionDelay: `${index * 150}ms` }} // تأخير الأنيميشن عشان يطلعوا ورا بعض
+      // ضفنا كلاسات الاختفاء opacity-0 translate-y-12 هنا
+      className="group bg-slate-800/40 dark:bg-slate-900/40 rounded-3xl overflow-hidden border border-slate-700/50 flex flex-col cursor-pointer
+      opacity-0 translate-y-12 transition-all duration-700 ease-out
+      hover:border-blue-500/50 hover:-translate-y-3 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

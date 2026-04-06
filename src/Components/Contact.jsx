@@ -1,26 +1,68 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 
 const Contact = () => {
+  // المراجع الخاصة بمراقبة السكرول للهيدر
+  const sectionRef = useRef(null);
+  const [isSectionInView, setIsSectionInView] = useState(false);
+
+  useEffect(() => {
+    // مراقب السيكشن عشان يشغل أنيميشن النقطتين
+    const sectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        setIsSectionInView(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) sectionObserver.observe(sectionRef.current);
+
+    return () => {
+      sectionObserver.disconnect();
+    };
+  }, []);
+
   return (
     <section
       id="contact"
+      ref={sectionRef} // ربطنا السيكشن بالمراقب
       className="py-24 px-6 bg-[#1e293b] dark:bg-[#0f172a] transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center">
-        {/* --- هيدر السيكشن (أنيميشن النقطتين الثابت معانا) --- */}
-        <div className="relative group cursor-pointer mb-20">
-          <span className="absolute -left-12 top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full transition-all duration-500 ease-in-out group-hover:left-0 group-hover:w-1/2 group-hover:h-full group-hover:rounded-none z-0"></span>
-          <span className="absolute -right-12 top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full transition-all duration-500 ease-in-out group-hover:right-0 group-hover:w-1/2 group-hover:h-full group-hover:rounded-none z-0"></span>
+        {/* --- هيدر السيكشن بأنيميشن الموبايل واللاب --- */}
+        <div className="relative group mb-20">
+          <span
+            className={`absolute top-1/2 -translate-y-1/2 bg-blue-500 transition-all duration-700 ease-in-out z-0 
+            ${
+              isSectionInView
+                ? "left-0 w-1/2 h-full rounded-none md:-left-12 md:w-4 md:h-4 md:rounded-full"
+                : "-left-12 w-4 h-4 rounded-full"
+            } 
+            md:group-hover:left-0 md:group-hover:w-1/2 md:group-hover:h-full md:group-hover:rounded-none`}
+          ></span>
+
+          <span
+            className={`absolute top-1/2 -translate-y-1/2 bg-blue-500 transition-all duration-700 ease-in-out z-0 
+            ${
+              isSectionInView
+                ? "right-0 w-1/2 h-full rounded-none md:-right-12 md:w-4 md:h-4 md:rounded-full"
+                : "-right-12 w-4 h-4 rounded-full"
+            } 
+            md:group-hover:right-0 md:group-hover:w-1/2 md:group-hover:h-full md:group-hover:rounded-none`}
+          ></span>
 
           <div className="relative w-48 h-16 border-2 border-blue-500 flex items-center justify-center overflow-hidden z-10 pointer-events-none">
-            <h2 className="text-2xl font-bold text-blue-500 group-hover:text-white transition-colors duration-500">
+            <h2
+              className={`text-2xl font-bold transition-colors duration-500 
+              ${isSectionInView ? "text-white md:text-blue-500" : "text-blue-500"} 
+              md:group-hover:text-white`}
+            >
               Contact
             </h2>
           </div>
         </div>
 
-        {/* --- محتوى الـ Contact (مفصول لعمودين في الشاشات الكبيرة) --- */}
+        {/* --- محتوى الـ Contact --- */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-5xl">
           {/* العمود الأول: معلومات التواصل */}
           <div className="flex flex-col justify-center">
@@ -64,15 +106,13 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-slate-400">Phone</p>
-                  <p className="text-white font-medium">+20 1069110100</p>{" "}
-                  {/* حط رقمك هنا */}
+                  <p className="text-white font-medium">+20 1069110100</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* العمود الثاني: الفورم */}
-          {/* غير الـ action باللينك اللي هتاخده من Formspree */}
           <form
             action="https://formspree.io/f/mkoppabv"
             method="POST"
