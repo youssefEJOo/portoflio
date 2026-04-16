@@ -23,7 +23,7 @@ const Footer = () => {
         {/* الجزء الثاني: السوشيال ميديا */}
         <div className="flex items-center gap-4">
           <a
-            href="#"
+            href="https://www.linkedin.com/in/youssef-fathi-elshemy/"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-full bg-slate-800/40 text-slate-400 hover:text-white hover:bg-blue-600 transition-all duration-300 hover:shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:-translate-y-1"
@@ -31,7 +31,7 @@ const Footer = () => {
           >
             <Linkedin size={20} />
           </a>
-          <a
+          {/* <a
             href="#"
             target="_blank"
             rel="noopener noreferrer"
@@ -39,7 +39,7 @@ const Footer = () => {
             aria-label="GitHub"
           >
             <Github size={20} />
-          </a>
+          </a> */}
         </div>
 
         {/* الجزء الثالث: الحقوق وزرار الطلوع لفوق */}
