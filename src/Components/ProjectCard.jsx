@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
-// استقبلنا innerRef و index
 const ProjectCard = ({ project, index, innerRef }) => {
   const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef(null);
@@ -22,12 +21,12 @@ const ProjectCard = ({ project, index, innerRef }) => {
 
   return (
     <div
-      ref={innerRef} // ربطنا الكارت بالمرجع اللي جاي من الأب
-      style={{ transitionDelay: `${index * 150}ms` }} // تأخير الأنيميشن عشان يطلعوا ورا بعض
-      // ضفنا كلاسات الاختفاء opacity-0 translate-y-12 هنا
-      className="group bg-slate-800/40 dark:bg-slate-900/40 rounded-3xl overflow-hidden border border-slate-700/50 flex flex-col cursor-pointer
-      opacity-0 translate-y-12 transition-all duration-700 ease-out
-      hover:border-blue-500/50 hover:-translate-y-3 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)]"
+      ref={innerRef}
+      style={{ transitionDelay: `${index * 150}ms` }}
+      // السطر اللي جاي ده هو اللي اتعدل عشان يظهر الكروت لو مفيش سكرول
+      className={`group bg-slate-800/40 dark:bg-slate-900/40 rounded-3xl overflow-hidden border border-slate-700/50 flex flex-col cursor-pointer transition-all duration-700 ease-out hover:border-blue-500/50 hover:-translate-y-3 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)] ${
+        innerRef ? "opacity-0 translate-y-12" : "opacity-100"
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -35,7 +34,9 @@ const ProjectCard = ({ project, index, innerRef }) => {
         <img
           src={project.image}
           alt={project.title}
-          className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-500 ${isHovered ? "opacity-0" : "opacity-100"}`}
+          className={`absolute inset-0 w-full h-full object-fill z-10 transition-opacity duration-500 ${
+            isHovered ? "opacity-0" : "opacity-100"
+          }`}
         />
 
         <video
@@ -44,15 +45,11 @@ const ProjectCard = ({ project, index, innerRef }) => {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 transform group-hover:scale-110 transition-transform duration-700"
+          className="absolute inset-0 w-full h-full object-fill z-10 transform transition-transform duration-700"
         />
 
         {!isHovered && (
-          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-            <span className="px-3 py-1 bg-black/60 text-white text-xs font-bold rounded-full backdrop-blur-md border border-white/20 shadow-lg">
-              Hover to play
-            </span>
-          </div>
+          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"></div>
         )}
       </div>
 
@@ -73,20 +70,16 @@ const ProjectCard = ({ project, index, innerRef }) => {
           ))}
         </div>
 
-        <div className="flex gap-6 mt-auto">
-          <a
-            href={project.github}
-            className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors"
-          >
-            <Github size={18} /> Code
-          </a>
+        {/* <div className="flex gap-6 mt-auto">
           <a
             href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors"
           >
             <ExternalLink size={18} /> Demo
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

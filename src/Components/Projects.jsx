@@ -1,30 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom"; // استدعاء اللينك من الراوتر
 import ProjectCard from "./ProjectCard";
+import { projectsData } from "../data/ProjectData";
 
 const Projects = () => {
-  const projectsData = [
-    {
-      title: "Sales Analysis Dashboard",
-      description:
-        "Interactive Power BI dashboard analyzing 2 years of sales data to track KPIs and uncover trends.",
-      image: "/projects/project1-static.jpg",
-      video: "/projects/project1-demo.mp4",
-      tech: ["Power BI", "SQL", "Excel"],
-      github: "#",
-      demo: "#",
-    },
-    {
-      title: "Customer Churn Analysis",
-      description:
-        "Comprehensive data analysis project identifying key factors leading to customer churn.",
-      image: "/projects/project2-static.jpg",
-      video: "/projects/project2-demo.mp4",
-      tech: ["SQL", "Excel", "Data Storytelling"],
-      github: "#",
-      demo: "#",
-    },
-  ];
-
   // المراجع الخاصة بمراقبة السكرول
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
@@ -63,6 +42,9 @@ const Projects = () => {
       cardObserver.disconnect();
     };
   }, []);
+
+  // هناخد أول مشروعين بس للعرض في الصفحة الرئيسية
+  const featuredProjects = projectsData.slice(0, 2);
 
   return (
     <section
@@ -104,23 +86,26 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* --- عرض الكروت --- */}
+        {/* --- عرض أول مشروعين بس --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
-          {projectsData.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <ProjectCard
               key={index}
               project={project}
-              index={index} // بنبعت الـ index عشان التأخير الزمني للأنيميشن
-              innerRef={(el) => (cardsRef.current[index] = el)} // بنبعت الـ Ref عشان المراقب يشوفه
+              index={index}
+              innerRef={(el) => (cardsRef.current[index] = el)}
             />
           ))}
         </div>
 
-        {/* --- زرار See More --- */}
+        {/* --- زرار See More (اتحول لـ Link) --- */}
         <div className="mt-16">
-          <button className="px-10 py-3 bg-blue-600 text-white font-bold rounded-xl transition-all duration-300 hover:bg-blue-800 hover:-translate-y-1 hover:shadow-[0_10px_20px_-10px_rgba(37,99,235,0.8)] active:scale-95 cursor-pointer">
-            See More
-          </button>
+          <Link
+            to="/all-projects"
+            className="inline-block px-10 py-3 bg-blue-600 text-white font-bold rounded-xl transition-all duration-300 hover:bg-blue-800 hover:-translate-y-1 hover:shadow-[0_10px_20px_-10px_rgba(37,99,235,0.8)] active:scale-95 cursor-pointer"
+          >
+            See All Projects
+          </Link>
         </div>
       </div>
     </section>
